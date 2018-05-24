@@ -24,23 +24,24 @@
 
     echo '<br/>';
 
-    $nombre1 = 150;
-    $nombre2 = 45;
+    $number1 = 1000;
+    $number2 = 50;
 
-    if ($nombre2 < $nombre1) {
-        $reste = $nombre1 % $nombre2;
+    if ($number2 < $number1) {
+        $rest = $number1 % $number2;
         while ($reste != 0) {
-            $reste = $nombre1 % $nombre2;
-            $nombre1 = $nombre2;
-            $nombre2 = $reste;
+            $rest = $nombre1 % $nombre2;
+            $number1 = $number2;
+            $number2 = $rest;
         }
-        echo $nombre2;
+        echo $number2;
     } else {
-        $reste = $nombre2 % $nombre1;
+        $rest = $number2 % $number1;
         while ($reste != 0) { 
-            $reste = $nombre2 % $nombre1;   
-            $nombre2 = $nombre1;
-            $nombre1 = $reste;
+            $rest = $number2 % $number1;
+            $number2 = $number1;
+            $number1 = $rest;
         }
-        echo $nombre1;
+        echo $number1;
     }
+
