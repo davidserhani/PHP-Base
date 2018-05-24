@@ -69,6 +69,21 @@
         echo '<br />';
     }
 
+    echo '<table border="1" style="border-collapse: collapse">';
+    echo '<thead><tr>';
+    echo '<th style="width: 30px; height: 30px">X</th>';
 
+    for ($head = 0; $head < 11; $head++) {
+        echo '<th style="width: 30px; height: 30px">' . $head . '</th>';
+    }
+    echo '</tr></thead>';
 
-
+    for ($line = 0; $line < 11; $line++) {
+        echo '<tr/>';
+        echo '<td align="center" style="width: 30px; height: 30px"><strong>' . $line . '</strong></td>';
+        for ($column = 0; $column < 11; $column++) {
+            echo  '<td style="width: 30px; height: 30px">' . $line * $column . '</td>';
+        }
+        echo '<tr />';
+    }
+    echo '</table>';
