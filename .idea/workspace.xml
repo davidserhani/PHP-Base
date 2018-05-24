@@ -13,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="boucles.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="boucles.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/03-boucles/boucles.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="88" column="20" lean-forward="true" selection-start-line="88" selection-start-column="20" selection-end-line="88" selection-end-column="20" />
+            <state relative-caret-position="443">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
               <folding>
                 <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
@@ -25,6 +25,15 @@
                 <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="date.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/04-dates/date.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="55" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -38,6 +47,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/03-boucles/boucles.php" />
+        <option value="$PROJECT_DIR$/04-dates/date.php" />
       </list>
     </option>
   </component>
@@ -50,7 +60,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="x" value="-7" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
@@ -75,6 +85,16 @@
               <item name="PHP-Base" type="b2602c69:ProjectViewProjectNode" />
               <item name="PHP-Base" type="462c0819:PsiDirectoryNode" />
               <item name="02-variables" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PHP-Base" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PHP-Base" type="462c0819:PsiDirectoryNode" />
+              <item name="03-boucles" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PHP-Base" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PHP-Base" type="462c0819:PsiDirectoryNode" />
+              <item name="04-dates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -111,18 +131,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1527145767308</updated>
-      <workItem from="1527145768496" duration="18724000" />
+      <workItem from="1527145768496" duration="22492000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18724000" />
+    <option name="totallyTimeSpent" value="22492000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-7" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12153518" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24945295" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
@@ -131,7 +151,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.32897604" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.33223322" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -155,8 +175,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/03-boucles/boucles.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="88" column="20" lean-forward="true" selection-start-line="88" selection-start-column="20" selection-end-line="88" selection-end-column="20" />
+        <state relative-caret-position="443">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
           <folding>
             <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
@@ -164,6 +184,13 @@
             <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/04-dates/date.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="55" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
         </state>
       </provider>
     </entry>
