@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
--- Host: 127.0.0.1    Database: beer_pdo
+-- Host: localhost    Database: beer_pdo
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.26-MariaDB
+-- Server version	5.7.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,10 +32,10 @@ CREATE TABLE `beer` (
   `ebc_id` int(11) NOT NULL,
   `brand_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_Beer_ebc_idx` (`ebc_id`),
-  KEY `fk_Beer_brand1_idx` (`brand_id`),
-  CONSTRAINT `fk_Beer_brand1` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Beer_ebc` FOREIGN KEY (`ebc_id`) REFERENCES `ebc` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_beer_ebc_idx` (`ebc_id`),
+  KEY `fk_beer_brand1_idx` (`brand_id`),
+  CONSTRAINT `fk_beer_brand1` FOREIGN KEY (`brand_id`) REFERENCES `brand` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_beer_ebc` FOREIGN KEY (`ebc_id`) REFERENCES `ebc` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -81,8 +81,8 @@ DROP TABLE IF EXISTS `brewery`;
 CREATE TABLE `brewery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `adress` varchar(255) DEFAULT NULL,
-  `city` varchar(2555) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
   `zip` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -133,7 +133,7 @@ DROP TABLE IF EXISTS `ebc`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ebc` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) DEFAULT NULL,
+  `code` int(11) DEFAULT NULL,
   `color` varchar(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -159,10 +159,10 @@ CREATE TABLE `note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `note` int(11) DEFAULT NULL,
   `comment` longtext,
-  `Beer_id` int(11) NOT NULL,
+  `beer_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_note_Beer1_idx` (`Beer_id`),
-  CONSTRAINT `fk_note_Beer1` FOREIGN KEY (`Beer_id`) REFERENCES `beer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_note_beer1_idx` (`beer_id`),
+  CONSTRAINT `fk_note_beer1` FOREIGN KEY (`beer_id`) REFERENCES `beer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -184,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-31 10:27:10
+-- Dump completed on 2018-05-31 10:27:07

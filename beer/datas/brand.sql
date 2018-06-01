@@ -4,5 +4,4 @@ INSERT INTO brand (`name`) VALUES
 ('Duvel'),
 ('Kwak'),
 ('Guinness'),
-('Ch''ti')
-;
+('Ch''ti');

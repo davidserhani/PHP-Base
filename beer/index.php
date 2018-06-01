@@ -1,22 +1,14 @@
 <?php
 
-require(__DIR__ . '/partials/header.php');
+// Inclure le fichier config/database.php
+// Inclure le fichier partials/header.php
+require('partials/header.php'); ?>
 
-?>
-
-
-    <section class="section">
-        <div class="container">
-            <h1 class="title">
-                Hello World
-            </h1>
-            <p class="subtitle">
-                My first website with <strong>Bulma</strong>!
-            </p>
-        </div>
-    </section>
+<!-- Le contenu de la page -->
+<div class="container pt-5">
+    <h1>Bienvenue sur Beer PDO</h1>
+</div>
 
 <?php
-
-require (__DIR__ . '/partials/footer.php');
-
+// Inclure le fichier partials/footer.php
+require('partials/footer.php');
