@@ -7,7 +7,8 @@ $beers = $query->fetchAll();
 
 <section class="section">
     <div class="container">
-        <h1 class="title">la liste des bières</h1>
+
+        <h1 class="title has-text-centered">la liste des bières</h1>
         <div class="columns">
         <?php
         foreach ($beers as $beer) {

@@ -7,15 +7,15 @@ require (__DIR__ . '/../config/database.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
+    <title>Beer PDO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <link rel="stylesheet" href="node_modules/bulma-carousel/dist/bulma-carousel.min.css">
 </head>
 <body>
 <nav class="navbar is-transparent is-fixed-top">
     <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+            <img src="https://bulma.io/images/bulma-logo.png" alt="" width="112" height="28">
         </a>
         <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
             <span></span>
