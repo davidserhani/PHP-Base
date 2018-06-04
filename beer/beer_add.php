@@ -16,6 +16,7 @@ require('partials/header.php'); ?>
         $volum = null;
         $brand = null;
         $type = null;
+        $image = null;
 
         if (!empty($_POST)) {
             $name = $_POST['name']; // Doit faire au moins 3 caractères
@@ -32,7 +33,7 @@ require('partials/header.php'); ?>
         }
     ?>
 
-    <form method="POST" action="">
+    <form method="POST" enctype="multipart/form-data" action="">
         <?php
         /*$fields = ['name' => 'Nom', 'degree' => 'Degrès', 'price' => 'Prix']; // Les champs du formulaire à afficher
         foreach ($fields as $field => $label) { ?>
@@ -44,7 +45,12 @@ require('partials/header.php'); ?>
 
         <div class="form-group">
             <label for="name">Nom :</label>
-            <input type="text" name="name" id="name" class="form-control" value="<?php echo $name; ?>">
+            <input type="text" name="name" id="name" class="form-control <?php echo isset($errors['name']) ? 'is-invalid' : null; ?>" value="<?php echo $name; ?>">
+            <?php if (isset($errors['name'])) {
+                echo '<div class="invalid-feedback">';
+                echo $errors['name'];
+                echo '</div>';
+            } ?>
         </div>
         <div class="form-group">
             <label for="degree">Degrès :</label>
@@ -91,11 +97,27 @@ require('partials/header.php'); ?>
                 </select>
             </datalist>
         </div>
+        <div class="form-group">
+            <input type="file" name="picture">
+        </div>
+
 
         <button class="btn btn-primary">Ajouter</button>
     </form>
 
     <?php
+
+        function slugify($string){
+            return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
+        }
+        var_dump(slugify('Ch\'ti Ambrée'));
+
+//        function slugify($string){
+//            $newString = str_replace(' ', '-', $string);
+//            $newString = str_replace('\'', '', $newString);
+//
+//        }
+
         // Détecter quand le formulaire est soumis
         // On peut aussi utilise $_SERVER
         if (!empty($_POST)) {
@@ -148,6 +170,27 @@ require('partials/header.php'); ?>
                 $errors['type'] = 'Le type n\'existe pas';
             }
 
+            if (!empty($_FILES['image']['tmp_name'])) {
+                $image = $_FILES['image'];
+            }
+            if ($image === null) {
+                $errors['image'] = 'Vous n\'avez pas uploadé d\'image';
+            }
+
+
+            if($image) {
+               $file = $image['tmp_name'];
+               $finfo = finfo_open(FILEINFO_MIME_TYPE);
+               $mimeType = finfo_file($finfo, $file);
+               $allowedExtensions = ['image/jpg', 'image/gif', 'image/png'];
+               if (!in_array($mimeType, $allowedExtensions)) {
+                   $errors['image'] = 'Ce type de fichier n\'est pas autorisé';
+               }
+               if ($image['size'] > 2097152) {
+                   $errors['image'] = 'Le fichier est trop lourd';
+               }
+            }
+
             var_dump($errors);
 
             // S'il n'y a pas d'erreurs dans le formulaire
@@ -158,12 +201,29 @@ require('partials/header.php'); ?>
                 $query->bindValue(':name', $name, PDO::PARAM_STR);
                 $query->bindValue(':degree', $degree, PDO::PARAM_STR);
                 $query->bindValue(':volum', $volum, PDO::PARAM_INT);
-                $query->bindValue(':image', 'img/chimay-chimay-rouge.jpg', PDO::PARAM_STR);
+                $query->bindValue(':image', null, PDO::PARAM_STR);
                 $query->bindValue(':price', $price, PDO::PARAM_STR);
                 $query->bindValue(':brand_id', $brand_id, PDO::PARAM_INT);
                 $query->bindValue(':ebc_id', $type_id, PDO::PARAM_INT);
 
                 if ($query->execute()) { // On insère la bière dans la BDD
+                    $file = $_FILES['image']['tmp_name'];
+                    $originalName = $_FILES['image']['name'];
+                    $extension = pathinfo('originalName')['extension'];
+
+                    $brand = slugify($brand['name']);
+                    $name = slugify($name);
+                    $filename = $brand. '-' .$name. '.' .$extension;
+
+                    move_uploaded_file($file,__DIR__. '/img/' .$filename);
+
+                    $query = $db->prepare('UPDATE beer SET `image` = :image WHERE id = :id');
+                    $query->bindValue(':image', 'img/' .$filename, PDO::PARAM_STR);
+                    $query->bindValue(':id', $db->lastInsertId(), PDO::PARAM_INT);
+                    $query->execute();
+
+
+
                     echo '<div class="alert alert-success">La bière a bien été ajouté.</div>';
                 }
 
@@ -171,6 +231,7 @@ require('partials/header.php'); ?>
         }
         // Vérifier les champs
         var_dump($_POST);
+        var_dump($_FILES);
     ?>
 </div>
 
