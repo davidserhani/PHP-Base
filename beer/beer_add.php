@@ -32,7 +32,134 @@ require('partials/header.php'); ?>
             }*/
         }
     ?>
+    <?php
 
+    function slugify($string){
+        return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
+    }
+    var_dump(slugify('Ch\'ti Ambrée'));
+
+    //        function slugify($string){
+    //            $newString = str_replace(' ', '-', $string);
+    //            $newString = str_replace('\'', '', $newString);
+    //
+    //        }
+
+    // Détecter quand le formulaire est soumis
+    // On peut aussi utilise $_SERVER
+    if (!empty($_POST)) {
+        // Définir un tableau d'erreur vide qui va se remplir après chaque erreur
+        $errors = [];
+
+        // $name doit faire au moins 3 caractères
+        if (strlen($name) < 3) {
+            $errors['name'] = 'Le nom n\'est pas valide'; // équivaut à array_push($errors, 'Le nom n\'est pas valide');
+        }
+
+        // $degree doit faire entre 0 et 20
+        if (!is_numeric($degree) || $degree < 0 || $degree > 20) {
+            $errors['degree'] = 'Le degrès n\'est pas valide';
+        }
+
+        // $price doit faire entre 0.01 et 99.99
+        if (!is_numeric($price) || $price < 0.01 || $price > 99.99) {
+            $errors['price'] = 'Le prix n\'est pas valide';
+        }
+
+        // $volum doit faire 250, 330 ou 750
+        if (!in_array($volum, [250, 330, 750])) {
+            $errors['volum'] = 'Le volume n\'est pas valide';
+        }
+
+        // Vérifier que la marque existe
+        $brand_id = intval(substr($brand, -1)); // "Duvel - 2" -> "2"
+
+        // Requête pour aller chercher la marque en BDD
+        $query = $db->prepare('SELECT * FROM brand WHERE id = :id');
+        $query->bindValue(':id', $brand_id, PDO::PARAM_INT);
+        $query->execute();
+        $brand = $query->fetch();
+
+        if (!$brand) { // Si la marque n'existe pas en BDD
+            $errors['brand'] = 'La marque n\'existe pas';
+        }
+
+        // Vérifier que le type existe
+        $type_id = intval(substr($type, -1)); // "Brune - 2" -> "2"
+
+        // Requête pour aller chercher le type ebc en BDD
+        $query = $db->prepare('SELECT * FROM ebc WHERE id = :id');
+        $query->bindValue(':id', $type_id, PDO::PARAM_INT);
+        $query->execute();
+        $type = $query->fetch();
+
+        if (!$type) { // Si le type n'existe pas en BDD
+            $errors['type'] = 'Le type n\'existe pas';
+        }
+
+        if (!empty($_FILES['image']['tmp_name'])) {
+            $image = $_FILES['image'];
+        }
+        if ($image === null) {
+            $errors['image'] = 'Vous n\'avez pas uploadé d\'image';
+        }
+
+
+        if($image) {
+            $file = $image['tmp_name'];
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $file);
+            $allowedExtensions = ['image/jpg', 'image/gif', 'image/png'];
+            if (!in_array($mimeType, $allowedExtensions)) {
+                $errors['image'] = 'Ce type de fichier n\'est pas autorisé';
+            }
+            if ($image['size'] > 2097152) {
+                $errors['image'] = 'Le fichier est trop lourd';
+            }
+        }
+
+        var_dump($errors);
+
+        // S'il n'y a pas d'erreurs dans le formulaire
+        if (empty($errors)) {
+            $query = $db->prepare('
+                    INSERT INTO beer (`name`, degree, volum, `image`, price, brand_id, ebc_id) VALUES (:name, :degree, :volum, :image, :price, :brand_id, :ebc_id)
+                ');
+            $query->bindValue(':name', $name, PDO::PARAM_STR);
+            $query->bindValue(':degree', $degree, PDO::PARAM_STR);
+            $query->bindValue(':volum', $volum, PDO::PARAM_INT);
+            $query->bindValue(':image', null, PDO::PARAM_STR);
+            $query->bindValue(':price', $price, PDO::PARAM_STR);
+            $query->bindValue(':brand_id', $brand_id, PDO::PARAM_INT);
+            $query->bindValue(':ebc_id', $type_id, PDO::PARAM_INT);
+
+            if ($query->execute()) { // On insère la bière dans la BDD
+                $file = $_FILES['image']['tmp_name'];
+                $originalName = $_FILES['image']['name'];
+                $extension = pathinfo('originalName')['extension'];
+
+                $brand = slugify($brand['name']);
+                $name = slugify($name);
+                $filename = $brand. '-' .$name. '.' .$extension;
+
+                move_uploaded_file($file,__DIR__. '/img/' .$filename);
+
+                $query = $db->prepare('UPDATE beer SET `image` = :image WHERE id = :id');
+                $query->bindValue(':image', 'img/' .$filename, PDO::PARAM_STR);
+                $query->bindValue(':id', $db->lastInsertId(), PDO::PARAM_INT);
+                $query->execute();
+
+
+
+                echo '<div class="alert alert-success">La bière a bien été ajouté.</div>';
+            }
+
+        }
+    }
+    // Vérifier les champs
+    var_dump($_POST);
+    var_dump($_FILES);
+    ?>
     <form method="POST" enctype="multipart/form-data" action="">
         <?php
         /*$fields = ['name' => 'Nom', 'degree' => 'Degrès', 'price' => 'Prix']; // Les champs du formulaire à afficher
@@ -105,134 +232,7 @@ require('partials/header.php'); ?>
         <button class="btn btn-primary">Ajouter</button>
     </form>
 
-    <?php
 
-        function slugify($string){
-            return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
-        }
-        var_dump(slugify('Ch\'ti Ambrée'));
-
-//        function slugify($string){
-//            $newString = str_replace(' ', '-', $string);
-//            $newString = str_replace('\'', '', $newString);
-//
-//        }
-
-        // Détecter quand le formulaire est soumis
-        // On peut aussi utilise $_SERVER
-        if (!empty($_POST)) {
-            // Définir un tableau d'erreur vide qui va se remplir après chaque erreur
-            $errors = [];
-
-            // $name doit faire au moins 3 caractères
-            if (strlen($name) < 3) {
-                $errors['name'] = 'Le nom n\'est pas valide'; // équivaut à array_push($errors, 'Le nom n\'est pas valide');
-            }
-
-            // $degree doit faire entre 0 et 20
-            if (!is_numeric($degree) || $degree < 0 || $degree > 20) {
-                $errors['degree'] = 'Le degrès n\'est pas valide';
-            }
-
-            // $price doit faire entre 0.01 et 99.99
-            if (!is_numeric($price) || $price < 0.01 || $price > 99.99) {
-                $errors['price'] = 'Le prix n\'est pas valide';
-            }
-
-            // $volum doit faire 250, 330 ou 750
-            if (!in_array($volum, [250, 330, 750])) {
-                $errors['volum'] = 'Le volume n\'est pas valide';
-            }
-
-            // Vérifier que la marque existe
-            $brand_id = intval(substr($brand, -1)); // "Duvel - 2" -> "2"
-
-            // Requête pour aller chercher la marque en BDD
-            $query = $db->prepare('SELECT * FROM brand WHERE id = :id');
-            $query->bindValue(':id', $brand_id, PDO::PARAM_INT);
-            $query->execute();
-            $brand = $query->fetch();
-
-            if (!$brand) { // Si la marque n'existe pas en BDD
-                $errors['brand'] = 'La marque n\'existe pas';
-            }
-
-            // Vérifier que le type existe
-            $type_id = intval(substr($type, -1)); // "Brune - 2" -> "2"
-
-            // Requête pour aller chercher le type ebc en BDD
-            $query = $db->prepare('SELECT * FROM ebc WHERE id = :id');
-            $query->bindValue(':id', $type_id, PDO::PARAM_INT);
-            $query->execute();
-            $type = $query->fetch();
-
-            if (!$type) { // Si le type n'existe pas en BDD
-                $errors['type'] = 'Le type n\'existe pas';
-            }
-
-            if (!empty($_FILES['image']['tmp_name'])) {
-                $image = $_FILES['image'];
-            }
-            if ($image === null) {
-                $errors['image'] = 'Vous n\'avez pas uploadé d\'image';
-            }
-
-
-            if($image) {
-               $file = $image['tmp_name'];
-               $finfo = finfo_open(FILEINFO_MIME_TYPE);
-               $mimeType = finfo_file($finfo, $file);
-               $allowedExtensions = ['image/jpg', 'image/gif', 'image/png'];
-               if (!in_array($mimeType, $allowedExtensions)) {
-                   $errors['image'] = 'Ce type de fichier n\'est pas autorisé';
-               }
-               if ($image['size'] > 2097152) {
-                   $errors['image'] = 'Le fichier est trop lourd';
-               }
-            }
-
-            var_dump($errors);
-
-            // S'il n'y a pas d'erreurs dans le formulaire
-            if (empty($errors)) {
-                $query = $db->prepare('
-                    INSERT INTO beer (`name`, degree, volum, `image`, price, brand_id, ebc_id) VALUES (:name, :degree, :volum, :image, :price, :brand_id, :ebc_id)
-                ');
-                $query->bindValue(':name', $name, PDO::PARAM_STR);
-                $query->bindValue(':degree', $degree, PDO::PARAM_STR);
-                $query->bindValue(':volum', $volum, PDO::PARAM_INT);
-                $query->bindValue(':image', null, PDO::PARAM_STR);
-                $query->bindValue(':price', $price, PDO::PARAM_STR);
-                $query->bindValue(':brand_id', $brand_id, PDO::PARAM_INT);
-                $query->bindValue(':ebc_id', $type_id, PDO::PARAM_INT);
-
-                if ($query->execute()) { // On insère la bière dans la BDD
-                    $file = $_FILES['image']['tmp_name'];
-                    $originalName = $_FILES['image']['name'];
-                    $extension = pathinfo('originalName')['extension'];
-
-                    $brand = slugify($brand['name']);
-                    $name = slugify($name);
-                    $filename = $brand. '-' .$name. '.' .$extension;
-
-                    move_uploaded_file($file,__DIR__. '/img/' .$filename);
-
-                    $query = $db->prepare('UPDATE beer SET `image` = :image WHERE id = :id');
-                    $query->bindValue(':image', 'img/' .$filename, PDO::PARAM_STR);
-                    $query->bindValue(':id', $db->lastInsertId(), PDO::PARAM_INT);
-                    $query->execute();
-
-
-
-                    echo '<div class="alert alert-success">La bière a bien été ajouté.</div>';
-                }
-
-            }
-        }
-        // Vérifier les champs
-        var_dump($_POST);
-        var_dump($_FILES);
-    ?>
 </div>
 
 <?php
