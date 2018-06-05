@@ -9,6 +9,7 @@ require('partials/header.php'); ?>
     <h1>Ajouter une bière</h1>
 
     <?php
+
         // On définis les variables pour éviter des "Notices" quand on les affichera dans le formulaire
         $name = null;
         $degree = null;
@@ -37,7 +38,7 @@ require('partials/header.php'); ?>
     function slugify($string){
         return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
     }
-    var_dump(slugify('Ch\'ti Ambrée'));
+//    var_dump(slugify('Ch\'ti Ambrée'));
 
     //        function slugify($string){
     //            $newString = str_replace(' ', '-', $string);
