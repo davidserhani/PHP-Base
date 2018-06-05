@@ -119,7 +119,7 @@ require('partials/header.php'); ?>
             }
         }
 
-        var_dump($errors);
+//        var_dump($errors);
 
         // S'il n'y a pas d'erreurs dans le formulaire
         if (empty($errors)) {
@@ -158,8 +158,8 @@ require('partials/header.php'); ?>
         }
     }
     // Vérifier les champs
-    var_dump($_POST);
-    var_dump($_FILES);
+//    var_dump($_POST);
+//    var_dump($_FILES);
     ?>
     <form method="POST" enctype="multipart/form-data" action="">
         <?php

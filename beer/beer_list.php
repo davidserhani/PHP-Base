@@ -6,7 +6,11 @@ require('partials/header.php');
 
 // Récupérer la liste des bières
 // Requête
-$query = $db->query('SELECT * FROM beer');
+$query = $db->query('SELECT beer.id, beer.name, beer.image, brand.id as id_brand, brand.name as name_brand, ebc.code, ebc.color
+FROM beer
+INNER JOIN brand  on beer.brand_id = brand.id
+inner JOIN ebc ON beer.ebc_id = ebc.id'
+);
 // Résultat
 $beers = $query->fetchAll();
 ?>
@@ -24,6 +28,8 @@ $beers = $query->fetchAll();
                     echo '<div class="card-body">';
                         echo '<p class="text-center font-weight-bold">';
                             echo $beer['name'];
+                            echo 'Marque : ' .$beer['name_brand'];
+                            echo 'Marque : ' .$beer['color'];
                         echo '</p>';
                         // Ajouter un bouton (a href) "Voir la bière"
                         // Quand on clique sur le bouton, on doit se rendre sur la page beer_single.php

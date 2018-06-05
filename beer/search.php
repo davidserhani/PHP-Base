@@ -1,8 +1,10 @@
 <?php
     if (!isset($_GET['query']) || empty($_GET['query'])) {
         header('Location: beer_list.php');
+        exit();
     }
     require('partials/header.php');
+
 ?>
 
 <div class="jumbotron">
@@ -56,4 +58,5 @@
 
 
 <?php
+    require ('utils/logs.php');
     require('partials/footer.php');
