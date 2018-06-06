@@ -1,6 +1,8 @@
 <?php
 require('partials/header.php');
+
 ?>
+
 <?php
 $query = $db->query('SELECT * FROM brewery');
 $breweries = $query->fetchAll();
@@ -8,8 +10,8 @@ $breweries = $query->fetchAll();
 
 ?>
 <div class="container">
-    <table class="table">
-        <thead>
+    <table class="table table-hover">
+        <thead class="thead-dark">
         <tr>
             <th scope="col">nom</th>
             <th scope="col">adresse</th>
