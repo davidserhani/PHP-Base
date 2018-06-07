@@ -1,7 +1,9 @@
 <?php
+session_start();
 // Configuration de PDO pour la base de données
 // On utilise la notation en absolue pour se repérer
 require(__DIR__.'/../config/database.php');
+require (__DIR__.'/../config/functions.php');
 ?>
 
 <!doctype html>
@@ -59,14 +61,28 @@ require(__DIR__.'/../config/database.php');
                             <a class="dropdown-item" href="brewery_add.php">Ajouter une brasserie</a>
                         </div>
                     </li>
-                    <li class="nav-item <?php echo ($page == 'register') ? 'active' : '' ?>">
-                        <a class="nav-link" href="register.php">Inscription</a>
-                    </li>
-                    <li class="nav-item <?php echo ($page == 'login') ? 'active' : '' ?>">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
+                    <?php if (isset($_SESSION['user'])) { ?>
+                        <li class="nav-item">
+                            <span class="navbar-text text-info">
+                                <?= $_SESSION['user']['email']; ?>
+                            </span>
+                        </li>
+                        <li class="nav-item <?php echo ($page == 'logout') ? 'active' : '' ?>">
+                            <a class="nav-link text-warning" href="logout.php">LogOut</a>
+                        </li>
+                    <?php } else { ?>
+                        <li class="nav-item <?php echo ($page == 'register') ? 'active' : '' ?>">
+                            <a class="nav-link" href="register.php">Inscription</a>
+                        </li>
+                        <li class="nav-item <?php echo ($page == 'login') ? 'active' : '' ?>">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
     </nav>
-<?php //var_dump(basename($_SERVER['REQUEST_URI'], '.php')); ?>
+<?php //var_dump(basename($_SERVER['REQUEST_URI'], '.php'));
+//var_dump($_SESSION);
+//var_dump($_SERVER['HTTP_REFERER']);
+?>

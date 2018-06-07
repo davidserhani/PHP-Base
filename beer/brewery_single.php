@@ -1,13 +1,6 @@
 <?php
 require('partials/header.php');
-function breweryExists($id) {
-    global $db;
-    $query = $db->prepare('SELECT * FROM brewery WHERE id = :id');
-    $query->bindValue(':id', $id, PDO::PARAM_INT);
-    $query->execute();
-    $brewery = $query->fetch();
-    return $brewery;
-}
+
 $brewery = breweryExists($_GET['id']);
 if (empty($_GET['id']) OR !$brewery) {
     header('HTTP/1.0 404 Not Found');
@@ -27,15 +20,6 @@ if (empty($_GET['id']) OR !$brewery) {
 }
 ?>
 
-<?php
-$id = $_GET['id'];
-$query = $db->prepare('SELECT * FROM brewery WHERE id = :id');
-$query->bindValue(':id', $id, PDO::PARAM_INT);
-$query->execute();
-$brewery = $query->fetch();
-
-
-?>
 
     <div class="jumbotron">
         <div class="container">

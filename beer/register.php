@@ -6,7 +6,7 @@ require('partials/header.php');
         <h1>Inscription</h1>
         <?php
         if (!empty($_POST)) {
-            $login = str_replace('', '',trim(strip_tags($_POST['login'])));
+            $login = str_replace(' ', '',trim(strip_tags($_POST['login'])));
             $email = $_POST['email'];
             $password = trim($_POST['password']);
             $cfPassword = trim($_POST['cfPassword']);
