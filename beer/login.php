@@ -24,8 +24,14 @@ require('partials/header.php');
         }
 
         if (!$error) {
+            $token = hash('sha256', $user['id'].$user['password'].$user['created_at']);
             unset($user['password']);
             $_SESSION['user'] = $user;
+            if (isset($_POST['rememberMe'])) {
+                setcookie('id', $user['id'], time() + 60 * 90 * 24 *365);
+                setcookie('token', $token, time() + 60 * 90 * 24 *365);
+            }
+
             header('Location:'.$_GET['referer']);
             exit();
         }
@@ -44,6 +50,10 @@ require('partials/header.php');
             <div class="form-group">
                 <label for="password">Mot de passe</label>
                 <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

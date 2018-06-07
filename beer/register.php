@@ -1,5 +1,9 @@
 <?php
 require('partials/header.php');
+if (userIsLogged()) {
+    header('Location: index.php');
+    exit();
+}
 ?>
 
     <div class="container">

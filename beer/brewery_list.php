@@ -18,7 +18,7 @@ $breweries = $query->fetchAll();
             <th scope="col">ville</th>
             <th scope="col">code postal</th>
             <th scope="col">pays</th>
-            <th>plus</th>
+            <th class="text-center">. . .</th>
         </tr>
         </thead>
         <tbody>
@@ -30,7 +30,12 @@ $breweries = $query->fetchAll();
             <td><?php echo $brewery['city']; ?></td>
             <td><?php echo $brewery['zip']; ?></td>
             <td><?php echo $brewery['country']; ?></td>
-            <td><a href="brewery_single.php?id=<?php echo $brewery['id'] ?>"><span class="badge badge-warning badge-pill">En savoir plus</span></a></td>
+            <td class="text-center">
+                <a href="brewery_single.php?id=<?php echo $brewery['id'] ?>"><span class="badge badge-warning badge-pill">En savoir plus</span></a>
+                <?php if (userIsLogged()) {
+                    echo '<a href="brewery_single.php?id=<?php echo $brewery[\'id\'] ?>"><span class="badge badge-danger badge-pill">Supprimer</span></a>';
+                } ?>
+            </td>
             </tr>
 
         <?php endforeach; ?>

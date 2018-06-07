@@ -6,7 +6,7 @@ require('partials/header.php'); ?>
 
 <!-- Le contenu de la page -->
     <div class="jumbotron">
-        <div class="container">
+        <div class="container text-center">
             <h1 class="display-4">Bienvenue sur Beer PDO</h1>
             <p>Le site référence de la bière</p>
             <hr class="my-4">

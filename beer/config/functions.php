@@ -13,6 +13,24 @@ function breweryExists($id) {
     return $brewery;
 }
 
+function userIsLogged() {
+    return isset($_SESSION['user']);
+}
+ function cookiAuthentification() {
+    global  $db;
+    if (isset($_COOKIE['id'])) {
+        $idUser = $_COOKIE['id'];
+        $query = $db->query('SELECT * FROM user WHERE id = ' . $idUser);
+        $user = $query->fetch();
+
+        $token = $_COOKIE['token'];
+        if ($token == hash('sha256', $user['id'].$user['password'].$user['created_at'])) {
+            unset($user['password']);
+            $SESSION['user'] = $user;
+        }
+    }
+ }
+
 
 
 
