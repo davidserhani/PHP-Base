@@ -33,7 +33,8 @@ $breweries = $query->fetchAll();
             <td class="text-center">
                 <a href="brewery_single.php?id=<?php echo $brewery['id'] ?>"><span class="badge badge-warning badge-pill">En savoir plus</span></a>
                 <?php if (userIsLogged()) {
-                    echo '<a href="brewery_single.php?id=<?php echo $brewery[\'id\'] ?>"><span class="badge badge-danger badge-pill">Supprimer</span></a>';
+                    echo '<a href="brewery_edit.php?id='.$brewery['id'].'"><span class="badge badge-info">Modifier</span></a>';
+                    echo '<a href="brewery_delete.php?id='.$brewery['id'].'"><span class="badge badge-danger confirm-delete">Supprimer</span></a>';
                 } ?>
             </td>
             </tr>

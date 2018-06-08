@@ -10,4 +10,6 @@ if (!userIsLogged()) {
 echo '<meta http-equiv="refresh" content="2; url=brewery_list.php">';
 $query = $db->prepare('DELETE FROM brewery WHERE id = :id');
 $query->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
-$query->execute();
+if ($query->execute()) {
+    header('Location: brewery_list.php');
+}

@@ -1,0 +1,12 @@
+{
+    "name": "webforce/composer",
+    "authors": [
+        {
+            "name": "David Serhani",
+            "email": "davidserhani@gmail.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0"
+    }
+}

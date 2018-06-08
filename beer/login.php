@@ -55,7 +55,8 @@ require('partials/header.php');
                 <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
                 <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="forget_pass.php">Mot de passe oublié</a>
+            <button type="submit" class="btn btn-primary">Se connecter</button>
         </form>
     </div>
 
