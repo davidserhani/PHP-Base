@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/beer/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/beer/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/beer/vendor/composer" />
+      <path value="$PROJECT_DIR$/beer/vendor/swiftmailer/swiftmailer" />
+    </include_path>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7" />
 </project>
