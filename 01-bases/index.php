@@ -9,6 +9,8 @@
         echo 'Hello world <br />';
         // On peut utiliser les doubles quotes ou les quotes, on peut échapper les quotes dans la chaine
         echo "l'html \"citation\" ";
+        $a = 'hello';
+
     ?>
 </body>
 </html>
